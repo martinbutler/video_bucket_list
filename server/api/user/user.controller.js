@@ -43,7 +43,22 @@ exports.completeItem = function(req, res, next) {
   User.findById(userId, function (err, user) {
     if (err) { return handleError(res, err); }
     if(!user) { return res.send(404); }
-    user.bucketList[completeItemIndex].completed = true;
+    user.bucketList[completeItemIndex].completed = !user.bucketList[completeItemIndex].completed;
+    user.markModified('bucketList');
+    user.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, user.bucketList[completeItemIndex].completed);
+    });
+  });
+};
+
+exports.update = function(req, res, next) {
+  var userId = req.user._id;
+  var udpatedBucketList = req.body.bucketList
+  User.findById(userId, function (err, user) {
+    if (err) { return handleError(res, err); }
+    if(!user) { return res.send(404); }
+    user.bucketList = udpatedBucketList;
     user.markModified('bucketList');
     user.save(function (err) {
       if (err) { return handleError(res, err); }
@@ -51,6 +66,7 @@ exports.completeItem = function(req, res, next) {
     });
   });
 };
+
 
 /**
  * Get list of users

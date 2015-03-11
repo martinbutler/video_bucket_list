@@ -17,5 +17,6 @@ router.post('/', controller.create);
 router.put('/:id/setItem', auth.isAuthenticated(), controller.setItem);
 router.put('/:id/complete', auth.isAuthenticated(), controller.completeItem);
 router.get('/thelist', auth.isAuthenticated(), controller.thelist);
+router.put('/:id/update', auth.isAuthenticated(), controller.update);
 
 module.exports = router;
