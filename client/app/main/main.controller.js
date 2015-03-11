@@ -31,7 +31,7 @@ angular.module('vimeoMartinApp')
 
     $scope.complete = function(index) {
       $http.put('/api/users/' + currentUser._id + '/complete', { index: index}).success(function(response) {
-        $scope.bucketList[index].completed = true;
+        $scope.bucketList[index].completed = response;
       });
     };
 
